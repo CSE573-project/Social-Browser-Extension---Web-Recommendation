@@ -1,7 +1,8 @@
+from pickle import TRUE
 import flask
 from flask import jsonify, request
 from mining import get_keyword
-from main import get_recommendations
+from main import get_recommendations, get_user_recommendations
 
 from flask_cors import CORS, cross_origin
 
@@ -59,5 +60,22 @@ def get_recommendation():
 
     return jsonify(recommendations)
 
+"""
+{
+    "request_links" : ["user1": ["link1", "link2", "link3"], "user2": ["link1", "link2", "link3"]]
+}
+"""
+@app.route('/user_recommendation', methods=['POST'])
+@cross_origin()
+def get_user_recommendation():
+    request_data = request.get_json()
+    recommendation_dict ={}
+    print(request_data)
+    if request_data and 'request_links' in request_data:
+        if (type(request_data['request_links']) == list) and (len(request_data['request_links']) > 0):
+            links = request_data['request_links']
+            recommendations = get_user_recommendations(links, request_data['user'])
+            print(recommendations)
+    return jsonify(recommendations)
 
-app.run()
+app.run(debug=TRUE)

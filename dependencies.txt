@@ -14,3 +14,4 @@ pip install wordninja
 
 pip install flask flask-cors
 
+pip install gensim
