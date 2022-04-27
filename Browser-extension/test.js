@@ -1,16 +1,29 @@
 
 let maxArrayLength = 20;
+let maxUserLength = 10;
 
 // Given an array of URLs, build a DOM list of those URLs in the
 // browser action popup.
-function buildPopupDom(divName, data) {
+function buildPopupDom(divName, data, user = false) {
   maxArrayLength = data.length > maxArrayLength ? maxArrayLength : data.length;
-  data = data.slice(0, maxArrayLength);
-  console.log(data);
-  var links = data;
-  var request_json = { "request_links": links };
+  var links = data.slice(0, maxArrayLength);
+  console.log(links);
+  if (user) {
+    links = [links]
+    for (let i = 1; i < maxUserLength; i++) {
+      let temp = data.slice(i*maxArrayLength,(i+1)*maxArrayLength);
+      links.push(temp);
+    }
+  }
+  if (user) {
+    var request_json = { "request_links": links, "user": 0 };
+    var url = 'http://127.0.0.1:5000/user_recommendation';
+  } else {
+    var request_json = { "request_links": links };
+    var url = 'http://127.0.0.1:5000/recommendation';
+  }
+
   const xhr = new XMLHttpRequest();
-  const url = 'http://127.0.0.1:5000/recommendation';
   xhr.open("POST", url, true);
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.send(JSON.stringify({
@@ -60,7 +73,7 @@ function buildPopupDom(divName, data) {
 
 // Search history to find up to ten links that a user has typed in,
 // and show those links in a popup.
-function buildTypedUrlList(divName) {
+function buildTypedUrlList(divName, user = false) {
   // To look for history items visited in the last week,
   // subtract a week of microseconds from the current time.
   var microsecondsPerWeek = 1000 * 60 * 60 * 24 * 7;
@@ -69,13 +82,16 @@ function buildTypedUrlList(divName) {
   // Track the number of callbacks from chrome.history.getVisits()
   // that we expect to get.  When it reaches zero, we have all results.
   var numRequestsOutstanding = 0;
+  var max = user ? 1000 : 100;
 
   chrome.history.search({
     'text': '',              // Return every history item....
-    'startTime': oneWeekAgo  // that was accessed less than one week ago.
+    'startTime': oneWeekAgo,  // that was accessed less than one week ago.
+    'maxResults': max
   },
     function (historyItems) {
       // For each history item, get details on all visits.
+      console.log(historyItems.length);
       for (var i = 0; i < historyItems.length; ++i) {
         var url = historyItems[i].url;
         var processVisitsWithUrl = function (url) {
@@ -135,7 +151,7 @@ function buildTypedUrlList(divName) {
       return urlToCount[b] - urlToCount[a];
     });
 
-    buildPopupDom(divName, urlArray);
+    buildPopupDom(divName, urlArray, user);
   };
 }
 
@@ -199,6 +215,18 @@ function functionStoreResult() {
   
 }
 
+var userBtn = document.getElementById("fetch2");
+
+userBtn.addEventListener("click", function () {
+  userBtn.style.display = 'none';
+  var agree = document.getElementById("agree");
+  agree.style.display = 'block';
+  var agreeBtn = document.getElementById("agreeBtn");
+  agreeBtn.addEventListener("click", function () {
+    agree.style.display = 'none';
+    buildTypedUrlList("typedUrl_div", true);
+  });
+});
 
 function sendFeedback(name,description, rating) {
   var request_json = {
