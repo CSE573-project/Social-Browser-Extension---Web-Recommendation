@@ -16,6 +16,7 @@ function buildPopupDom(divName, data, user = false) {
   }
   if (user) {
     var request_json = { "request_links": links, "user": 0 };
+    var url = 'http://127.0.0.1:5000/user_recommendation';
   } else {
     var request_json = { "request_links": links };
     var url = 'http://127.0.0.1:5000/recommendation';
