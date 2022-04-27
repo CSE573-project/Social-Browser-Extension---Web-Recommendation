@@ -71,10 +71,10 @@ def get_user_recommendation():
     request_data = request.get_json()
     recommendation_dict ={}
     print(request_data)
-    if request_data and 'request_links' in request_data:
-        if (type(request_data['request_links']) == list) and (len(request_data['request_links']) > 0):
-            links = request_data['request_links']
-            recommendations = get_user_recommendations(links, request_data['user'])
+    if request_data and 'value' in request_data and 'request_links' in request_data['value']:
+        if (type(request_data['value']['request_links']) == list) and (len(request_data['value']['request_links']) > 0):
+            links = request_data['value']['request_links']
+            recommendations = get_user_recommendations(links, request_data['value']['user'])
             print(recommendations)
     return jsonify(recommendations)
 

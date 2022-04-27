@@ -117,13 +117,10 @@ def recommend_users(texts, user, user_knowledge_graph_df = None):
     sim_mat = np.array([similarity_pearson(matrix_2[i], matrix_2[j]) for i in range(0,len(texts)) for j in range(0,len(texts))])
     sim_df = pd.DataFrame(data = sim_mat.reshape(len(texts),len(texts)))
     print(sim_df)
-    print(sim_df[4])
-    print(sim_df[4].nlargest(2).index[1])
+    print(sim_df[user])
+    print(sim_df[user].nlargest(2).index[1])
 
-    return {}
+    return { "Most Similar User": str(sim_df[user].nlargest(2).index[1]) }
 
 def similarity_pearson(x, y):
     return scipy.stats.pearsonr(x, y)[0]
-
-def neighbours(sim):
-    return [(sim.index[i],v)  for i, v in enumerate(sim)]
