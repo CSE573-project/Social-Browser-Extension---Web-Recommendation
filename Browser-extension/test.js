@@ -208,7 +208,7 @@ function functionStoreResult() {
   }
   console.log(document.getElementById("myTextarea").value);
   console.log(rating);
-  sendFeedback('Yash',document.getElementById("myTextarea").value,rating);
+  sendFeedback(document.getElementById("name").value, document.getElementById("myTextarea").value, rating);
   widget.style.display = "none";
   post.style.display = "block";
   recommendation.style.display = "none";
