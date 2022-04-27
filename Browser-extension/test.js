@@ -224,6 +224,7 @@ userBtn.addEventListener("click", function () {
   var agreeBtn = document.getElementById("agreeBtn");
   agreeBtn.addEventListener("click", function () {
     agree.style.display = 'none';
+    spinner.style.display = 'block';
     buildTypedUrlList("typedUrl_div", true);
   });
 });
