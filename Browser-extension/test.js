@@ -8,54 +8,54 @@ function buildPopupDom(divName, data) {
   data = data.slice(0, maxArrayLength);
   console.log(data);
   var links = data;
-  // var request_json = { "request_links": links };
-  // const xhr = new XMLHttpRequest();
-  // const url = 'http://127.0.0.1:5000/recommendation';
-  // xhr.open("POST", url, true);
-  // xhr.setRequestHeader('Content-Type', 'application/json');
-  // xhr.send(JSON.stringify({
-  //   value: request_json
-  // }));
+  var request_json = { "request_links": links };
+  const xhr = new XMLHttpRequest();
+  const url = 'http://127.0.0.1:5000/recommendation';
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.send(JSON.stringify({
+    value: request_json
+  }));
 
-  // xhr.onload = function () {
-  //   spinner.style.display = "none";
-  //   console.log(this.status);
-  //   var data = JSON.parse(this.responseText);
-  //   console.log(data);
-  //   var response = data;
-  //   var mainContainer = document.getElementById("myData");
+  xhr.onload = function () {
+    spinner.style.display = "none";
+    console.log(this.status);
+    var data = JSON.parse(this.responseText);
+    console.log(data);
+    var response = data;
+    var mainContainer = document.getElementById("myData");
 
-  //   var ul = document.createElement('ul');
-  //   mainContainer.appendChild(ul);
-  //   for (var key in response) {
-  //     var result = key + ' : ' + response[key];
-  //     console.log(key);
-  //     console.log(response[key]);
+    var ul = document.createElement('ul');
+    mainContainer.appendChild(ul);
+    for (var key in response) {
+      var result = key + ' : ' + response[key];
+      console.log(key);
+      console.log(response[key]);
 
-  //     var li = document.createElement('li');
-  //     li.innerHTML = result;
-  //     ul.appendChild(li);
-  //   }
-  //   feedbackBtn.style.display = "block";
-  // };
-  spinner.style.display = "none";
-  var response = { 'City': ['Isa Town', 'Dora', 'Tirat Carmel'], 'Board Game': ['Games played with Mahjong equipment', 'Tiger game', 'tafl games'], 'Building': ['Lindenstraße 62', 'Werderstraße 157', 'Südstraße 80 und 82'], 'Musical Work': ['Earth Dances', 'The Creation structure', 'Four Last Songs'], 'Anime': ['Jankenman', 'Nekomonogatari', 'Akū Daisakusen Srungle'] };
+      var li = document.createElement('li');
+      li.innerHTML = result;
+      ul.appendChild(li);
+    }
+    feedbackBtn.style.display = "block";
+  };
+  // spinner.style.display = "none";
+  // var response = { 'City': ['Isa Town', 'Dora', 'Tirat Carmel'], 'Board Game': ['Games played with Mahjong equipment', 'Tiger game', 'tafl games'], 'Building': ['Lindenstraße 62', 'Werderstraße 157', 'Südstraße 80 und 82'], 'Musical Work': ['Earth Dances', 'The Creation structure', 'Four Last Songs'], 'Anime': ['Jankenman', 'Nekomonogatari', 'Akū Daisakusen Srungle'] };
 
-  // console.log(msg);
-  var mainContainer = document.getElementById("myData");
+  // // console.log(msg);
+  // var mainContainer = document.getElementById("myData");
 
-  var ul = document.createElement('ul');
-  mainContainer.appendChild(ul);
-  for (var key in response) {
-    var result = key + ' : ' + response[key];
-    console.log(key);
-    console.log(response[key]);
+  // var ul = document.createElement('ul');
+  // mainContainer.appendChild(ul);
+  // for (var key in response) {
+  //   var result = key + ' : ' + response[key];
+  //   console.log(key);
+  //   console.log(response[key]);
 
-    var li = document.createElement('li');
-    li.innerHTML = result;
-    ul.appendChild(li);
-  }
-  feedbackBtn.style.display = "block";
+  //   var li = document.createElement('li');
+  //   li.innerHTML = result;
+  //   ul.appendChild(li);
+  // }
+  // feedbackBtn.style.display = "block";
 }
 
 // Search history to find up to ten links that a user has typed in,
